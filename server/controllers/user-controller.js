@@ -25,6 +25,7 @@ export const register = async (req, res) => {
       token: await userCreate.generateToken(),
     });
   } catch (error) {
+    next(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -36,7 +37,7 @@ export const login = async (req, res) => {
     if (!userExists) {
       return res.status(401).json({ message: "Invalid credentails" });
     }
-    const isPasswordMatch = await bcrypt.compare(password, userExists.password);
+    const isPasswordMatch = await userExists.comparePassword(password);
     if (isPasswordMatch) {
       res.status(200).json({
         messgae: " login successful",
@@ -46,6 +47,6 @@ export const login = async (req, res) => {
       res.status(404).json({ message: "Invalid email or password" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
+    next(error);
   }
 };
