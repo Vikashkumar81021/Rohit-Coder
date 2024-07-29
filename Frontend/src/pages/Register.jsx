@@ -1,6 +1,24 @@
-export const Register = () => {
-  //  Help me reach 1 Million subs 👉 https://youtube.com/thapatechnical
+import { useState } from "react";
 
+export const Register = () => {
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+  const handleInput = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    setUser({
+      ...user,
+      [name]: value,
+    });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(user);
+  };
   return (
     <>
       <section>
@@ -15,22 +33,39 @@ export const Register = () => {
                   height="500"
                 />
               </div>
-              {/* our main registration code  */}
+
               <div className="registration-form">
                 <h1 className="main-heading mb-3">registration form</h1>
                 <br />
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div>
                     <label htmlFor="username">username</label>
-                    <input type="text" name="username" placeholder="username" />
+                    <input
+                      type="text"
+                      name="username"
+                      placeholder="username"
+                      value={user.username}
+                      onChange={handleInput}
+                    />
                   </div>
                   <div>
                     <label htmlFor="email">email</label>
-                    <input type="text" name="email" placeholder="email" />
+                    <input
+                      type="text"
+                      name="email"
+                      placeholder="email"
+                      value={user.email}
+                      onChange={handleInput}
+                    />
                   </div>
                   <div>
                     <label htmlFor="phone">phone</label>
-                    <input type="number" name="phone" />
+                    <input
+                      type="number"
+                      name="phone"
+                      value={user.phone}
+                      onChange={handleInput}
+                    />
                   </div>
                   <div>
                     <label htmlFor="password">password</label>
@@ -38,6 +73,8 @@ export const Register = () => {
                       type="password"
                       name="password"
                       placeholder="password"
+                      value={user.password}
+                      onChange={handleInput}
                     />
                   </div>
                   <br />

@@ -3,7 +3,7 @@ import "./App.css";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Service from "./pages/Service";
-import Register from "./pages/Register";
+import { Register } from "./pages/Register";
 import Login from "./pages/Login";
 import { Navbar } from "./components/Navbar";
 
