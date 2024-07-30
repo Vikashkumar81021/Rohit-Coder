@@ -8,17 +8,35 @@ export const Register = () => {
     password: "",
   });
   const handleInput = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
-    setUser({
-      ...user,
+    const { name, value } = e.target;
+    setUser((prevUser) => ({
+      ...prevUser,
       [name]: value,
-    });
+    }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
+    try {
+      const response = await fetch("http://localhost:8080/api/v1/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Something went wrong");
+      }
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+
   return (
     <>
       <section>
