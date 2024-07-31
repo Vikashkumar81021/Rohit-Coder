@@ -1,18 +1,20 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 export const Register = () => {
   const [user, setUser] = useState({
-    username: "",
+    userName: "",
     email: "",
     phone: "",
     password: "",
   });
+  const navigate = useNavigate();
   const handleInput = (e) => {
-    const { name, value } = e.target;
-    setUser((prevUser) => ({
-      ...prevUser,
+    let name = e.target.name;
+    let value = e.target.value;
+    setUser({
+      ...user,
       [name]: value,
-    }));
+    });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,13 +27,16 @@ export const Register = () => {
         body: JSON.stringify(user),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Something went wrong");
-      }
-
       const data = await response.json();
       console.log(data);
+      if (response.ok) {
+        alert("registration successful");
+        setUser({ userName: "", email: "", phone: "", password: "" });
+
+        navigate("/login");
+      } else {
+        console.log("error inside response ", "error");
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -57,12 +62,12 @@ export const Register = () => {
                 <br />
                 <form onSubmit={handleSubmit}>
                   <div>
-                    <label htmlFor="username">username</label>
+                    <label htmlFor="userName">username</label>
                     <input
                       type="text"
-                      name="username"
-                      placeholder="username"
-                      value={user.username}
+                      name="userName"
+                      placeholder="userName"
+                      value={user.userName}
                       onChange={handleInput}
                     />
                   </div>
